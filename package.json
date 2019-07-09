@@ -1,0 +1,33 @@
+{
+  "name": "optical-store",
+  "description": "Functional lenses-based state store",
+  "keywords": [
+    "lenses",
+    "state",
+    "store",
+    "management",
+    "functional",
+    "immutable"
+  ],
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "rollup": "1.16.6",
+    "tape": "4.11.0"
+  },
+  "license": "MIT",
+  "author": "Francisco Tavares de Lima Neto",
+  "main": "index.cjs.js",
+  "module": "index.js",
+  "typings": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscotln/optical-store.git"
+  },
+  "scripts": {
+    "build": "rollup $npm_package_module -o $npm_package_main --f cjs",
+    "pretest": "npm run build",
+    "test": "tape test.js",
+    "prepare": "npm test"
+  }
+}
