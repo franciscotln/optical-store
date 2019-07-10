@@ -5,8 +5,4 @@ export interface Store<S> {
   lens<T>(getter: (state: S) => T, setter: (newState: T, parentState: S) => S): Store<T>
 }
 
-export interface StoreCreator<S> {
-  (state: S): Store<S>;
-}
-
-export default function createStore<S>(state: S): StoreCreator<S>;
+export default function createStore<S>(state: S): Store<S>;
