@@ -1,12 +1,4 @@
-const throwIfStateNotObj = (state) => {
-  if (!state || {}.toString.call(state) !== '[object Object]') {
-    throw new Error('Initial state is not an object');
-  }
-};
-
 export default function createStore(state) {
-  throwIfStateNotObj(state);
-
   let $state = state;
   const $listeners = [];
 

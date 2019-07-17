@@ -1,7 +1,7 @@
 const createStore = require('.');
 const assert = require('tape');
 
-assert('It should throw if called with something other than plain object', (test) => {
+assert('It should accept any value as initial state', (test) => {
   const cases = [
     () => createStore(),
     () => createStore(null),
@@ -13,16 +13,22 @@ assert('It should throw if called with something other than plain object', (test
     () => createStore(function () { }),
   ];
 
-  for (let getCase of cases) test.throws(getCase, Error);
+  for (let getCase of cases) test.doesNotThrow(getCase);
 
   test.end();
 });
 
-assert('It should work with an object without prototype as initial state', (test) => {
-  test.doesNotThrow(() => {
-    createStore(Object.create(null));
+assert('It should work with a primitive as initial state', (test) => {
+  const pushedValues = [];
+  const { view, set, subscribe, lens } = createStore(0);
+  subscribe((value) => {
+    pushedValues.push(value);
   });
 
+  [0, 0, 1, 0, 2, 2].forEach(set);
+
+  test.deepEquals(pushedValues, [1, 0, 2]);
+  test.equal(view(), 2);
   test.end();
 });
 

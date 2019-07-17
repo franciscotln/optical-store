@@ -12,7 +12,7 @@
   "version": "0.1.1",
   "dependencies": {},
   "devDependencies": {
-    "rollup": "1.16.6",
+    "rollup": "1.17.0",
     "tape": "4.11.0"
   },
   "license": "MIT",
