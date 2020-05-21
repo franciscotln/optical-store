@@ -1,4 +1,4 @@
-export default function createStore(state) {
+export default function createStore(state, memoize = true) {
   let $state = state;
   const $listeners = [];
 
@@ -9,7 +9,7 @@ export default function createStore(state) {
       },
       set(newState) {
         const storeState = store.view();
-        if (getter(storeState) !== newState) {
+        if (!memoize || getter(storeState) !== newState) {
           store.set(setter(newState, storeState));
         }
       },
@@ -17,7 +17,7 @@ export default function createStore(state) {
         let prevState = getter(store.view());
         return store.subscribe((state) => {
           const currentState = getter(state);
-          if (currentState !== prevState) {
+          if (!memoize || currentState !== prevState) {
             prevState = currentState;
             listener(currentState);
           }
@@ -30,7 +30,7 @@ export default function createStore(state) {
   const view = () => $state;
 
   const set = (newState) => {
-    if ($state !== newState) {
+    if (!memoize || $state !== newState) {
       $state = newState;
       const n = $listeners.length;
       for (let i = 0; i < n; i++) $listeners[i]($state);

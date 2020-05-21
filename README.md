@@ -117,6 +117,16 @@ Although you can go as deep as you wish into the state, consider normalising you
 
 Try to assign these getters/setters to constants so you can re-use them later on. Notice that these lenses obey the monadic laws of composition.
 
-Immutability is very important for the store to work properly since the equality comparisions are made by reference, not value and if you mutate an object instead of returning a new updated reference, the subscribers won't be notified of a state change.
+Immutability is very important for the store to work properly since the equality comparisions are made by reference, not value and if you mutate an object instead of returning a new updated reference, the subscribers won't be notified of a state change. The state store is memoized by default, if you wish the subscribers to always get notified even when setting the same value to the current state, then explicitly pass a flag "false" to the createStore function.
+
+```js
+const nonMemoizedStore = createStore(0, false);
+
+nonMemoizedStore.subscribe((newValue) => {
+  console.log(newValue);
+});
+
+nonMemoizedStore.set(0); // logs 0, although the current value was already 0.
+```
 
 In this [codesandbox](https://codesandbox.io/s/blazing-frost-rfjyx?fontsize=14) you'll find an example of usage integrating the store with a ReactJs app.

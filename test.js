@@ -79,3 +79,79 @@ assert('It should be composable', (test) => {
 
   set('Bee');
 });
+
+assert('It should be memoized by default', (test) => {
+  const memoStore = createStore(0);
+  const store = createStore(0, false);
+  const pushedValuesToMemoStore = [];
+  const pushedValuesToStore = [];
+  const expectedPushValuesToMemoStore = [1, 0, 1];
+  const expectedPushValuesToStore = [0, 0, 1, 0, 1];
+
+  test.deepEqual(memoStore.view(), 0);
+
+  test.deepEqual(store.view(), 0);
+
+  memoStore.subscribe((newState) => {
+    pushedValuesToMemoStore.push(newState);
+  });
+
+  store.subscribe((newState) => {
+    pushedValuesToStore.push(newState);
+  });
+
+  [0, 0, 1, 0, 1].forEach((value) => {
+    memoStore.set(value);
+    store.set(value);
+  });
+
+  test.deepEqual(pushedValuesToMemoStore, expectedPushValuesToMemoStore);
+
+  test.deepEqual(pushedValuesToStore, expectedPushValuesToStore);
+
+  test.end();
+});
+
+assert('Its lenses should be memoized by default', (test) => {
+  const getValue = ({ value }) => value;
+  const setValue = (value, state) => ({ ...state, value });
+  const initialState = { static: 'static', value: 0 };
+
+  const memoStore = createStore(initialState)
+  const memoLensStore = memoStore.lens(getValue, setValue);
+
+  const store = createStore(initialState, false);
+  const lensStore = store.lens(getValue, setValue);
+
+  const pushedValuesToMemoStore = [];
+  const pushedValuesToStore = [];
+  const expectedPushValuesToMemoStore = [1, 0, 1];
+  const expectedPushValuesToStore = [0, 0, 1, 0, 1];
+
+  test.deepEqual(memoLensStore.view(), 0);
+
+  test.deepEqual(lensStore.view(), 0);
+
+  memoLensStore.subscribe((newState) => {
+    pushedValuesToMemoStore.push(newState);
+  });
+
+  lensStore.subscribe((newState) => {
+    pushedValuesToStore.push(newState);
+  });
+
+  [0, 0, 1, 0, 1].forEach((value) => {
+    memoLensStore.set(value);
+    lensStore.set(value);
+  });
+
+  test.deepEqual(pushedValuesToMemoStore, expectedPushValuesToMemoStore);
+
+  test.deepEqual(pushedValuesToStore, expectedPushValuesToStore);
+
+  test.deepEqual(memoStore.view(), { static: 'static', value: 1 })
+
+  test.deepEqual(store.view(), { static: 'static', value: 1 })
+
+  test.end();
+});

@@ -12,14 +12,18 @@
   "version": "0.1.2",
   "dependencies": {},
   "devDependencies": {
-    "rollup": "1.17.0",
-    "tape": "4.11.0"
+    "rollup": "2.10.5",
+    "tape": "5.0.0"
   },
   "license": "MIT",
   "author": "Francisco Tavares de Lima Neto",
   "main": "index.cjs.js",
   "module": "index.js",
-  "typings": "./index.d.ts",
+  "files": [
+    "index.cjs.js",
+    "index.js",
+    "index.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/franciscotln/optical-store.git"
