@@ -9,11 +9,10 @@
     "functional",
     "immutable"
   ],
-  "version": "0.2.0",
-  "dependencies": {},
+  "version": "0.2.1",
   "devDependencies": {
-    "rollup": "2.10.5",
-    "tape": "5.0.0"
+    "rollup": "2.60.0",
+    "tape": "5.3.1"
   },
   "license": "MIT",
   "author": "Francisco Tavares de Lima Neto",
@@ -29,7 +28,7 @@
     "url": "git+https://github.com/franciscotln/optical-store.git"
   },
   "scripts": {
-    "build": "rollup $npm_package_module -o $npm_package_main --f cjs",
+    "build": "rollup index.js -o index.cjs.js --f cjs",
     "pretest": "npm run build",
     "test": "tape test.js",
     "prepare": "npm test"

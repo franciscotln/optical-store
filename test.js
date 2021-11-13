@@ -27,7 +27,7 @@ assert('It should work with a primitive as initial state', (test) => {
 
   [0, 0, 1, 0, 2, 2].forEach(set);
 
-  test.deepEquals(pushedValues, [1, 0, 2]);
+  test.deepEquals(pushedValues, [0, 1, 0, 2]);
   test.equal(view(), 2);
   test.end();
 });
@@ -85,8 +85,8 @@ assert('It should be memoized by default', (test) => {
   const store = createStore(0, false);
   const pushedValuesToMemoStore = [];
   const pushedValuesToStore = [];
-  const expectedPushValuesToMemoStore = [1, 0, 1];
-  const expectedPushValuesToStore = [0, 0, 1, 0, 1];
+  const expectedPushValuesToMemoStore = [0, 1, 0, 1];
+  const expectedPushValuesToStore = [0, 0, 0, 1, 0, 1];
 
   test.deepEqual(memoStore.view(), 0);
 
@@ -126,7 +126,7 @@ assert('Its lenses should be memoized by default', (test) => {
   const pushedValuesToMemoStore = [];
   const pushedValuesToStore = [];
   const expectedPushValuesToMemoStore = [1, 0, 1];
-  const expectedPushValuesToStore = [0, 0, 1, 0, 1];
+  const expectedPushValuesToStore = [0, 0, 0, 1, 0, 1];
 
   test.deepEqual(memoLensStore.view(), 0);
 
@@ -153,5 +153,19 @@ assert('Its lenses should be memoized by default', (test) => {
 
   test.deepEqual(store.view(), { static: 'static', value: 1 })
 
+  test.end();
+});
+
+assert('It should emit the lastest value upon subscription', (test) => {
+  const store = createStore(0);
+  const pushedValues = [];
+
+  store.set(1);
+  store.set(2);
+  store.subscribe((value) => {
+    pushedValues.push(value);
+  });
+
+  test.deepEqual(pushedValues, [2]);
   test.end();
 });

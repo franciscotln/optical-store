@@ -40,6 +40,7 @@ export default function createStore(state, memoize = true) {
   const subscribe = (listener) => {
     if (typeof listener === 'function') {
       $listeners.push(listener);
+      listener($state);
       return () => {
         $listeners.splice($listeners.indexOf(listener), 1);
       };
