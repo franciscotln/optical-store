@@ -14,10 +14,12 @@ export default function createStore(state, memoize = true) {
         }
       },
       subscribe(listener) {
+        let isSubscribed = false;
         let prevState = getter(store.view());
         return store.subscribe((state) => {
           const currentState = getter(state);
-          if (!memoize || currentState !== prevState) {
+          if (!memoize || currentState !== prevState || !isSubscribed) {
+            isSubscribed = true;
             prevState = currentState;
             listener(currentState);
           }

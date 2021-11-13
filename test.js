@@ -72,12 +72,12 @@ assert('It should be composable', (test) => {
 
   test.deepEqual(view(), 'A');
 
+  set('Bee');
+
   subscribe((newState) => {
     test.deepEqual(newState, 'Bee');
     test.end();
   });
-
-  set('Bee');
 });
 
 assert('It should be memoized by default', (test) => {
@@ -125,7 +125,7 @@ assert('Its lenses should be memoized by default', (test) => {
 
   const pushedValuesToMemoStore = [];
   const pushedValuesToStore = [];
-  const expectedPushValuesToMemoStore = [1, 0, 1];
+  const expectedPushValuesToMemoStore = [0, 1, 0, 1];
   const expectedPushValuesToStore = [0, 0, 0, 1, 0, 1];
 
   test.deepEqual(memoLensStore.view(), 0);
